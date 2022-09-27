@@ -1,2 +1,2 @@
-# Consulta_Preco-urllib
- Programa armazena duas páginas utilizando urllib, compara os preços das paginas e informa a hora de comprar o produto no preço  desejado
+# Cafeteria Starbuzz
+ Programa para verificar o momento certo de fazer a compra do café no fornecedor.
