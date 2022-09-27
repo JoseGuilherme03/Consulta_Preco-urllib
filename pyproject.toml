@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["José Guilherme Fernandes <josegfernandes03@gmail.com>"]
 readme = "README.md"
-packages = [{include = "python_urllib"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
