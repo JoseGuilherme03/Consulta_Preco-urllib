@@ -1,3 +1,4 @@
+
 import urllib.request
 
 
@@ -39,7 +40,32 @@ def consulta_preco():
             print(f"\nCompre agora na pagina do {pagina}.")
             print(f"\033[32mPreço: U${menor_valor:.2f}\033[m\n")
             break
+    return f"Preço: U${menor_valor:.2f}"
 
 
-# Programa Principal
+def enviar_email(txt):
+    import smtplib
+    import email.message
+    corpo_email = f"""
+    <p>Olá segue abaixo o preço de compra do café</p>
+    <p>{txt}</p>
+    """
+
+    msg = email.message.Message()
+    msg['Subject'] = "Preço do Café"
+    msg['From'] = 'josegfernandes03@gmail.com'
+    msg['To'] = 'josegfernandes03@gmail.com'
+    senha = '' # Configurar senha de acesso a aplicativo no google
+    msg.add_header('Content-Type', 'text/html') 
+    msg.set_payload(corpo_email )
+
+    s = smtplib.SMTP('smtp.gmail.com: 587') # Servidor do Gmail
+    s.starttls() # Inicia a conexão com o servidor
+    s.login(msg['From'], senha) # Faz o login no servidor
+    s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
+    print('Email enviado')
+
+
+# Programa Principal 
 consulta_preco()
+
