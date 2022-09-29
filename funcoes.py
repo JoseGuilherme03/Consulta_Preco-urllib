@@ -1,9 +1,6 @@
-
-import urllib.request
-
-
 # A função abaixo abre um arquivo texto através da "urllib", lê seus dados, considerando que são do formato UTF-8 e retorna uma string com os dados. Após isso, utiliza o find para encontrar a posição do valor do preço e retorna o valor do preço.
 def identifica_preco(url):
+    import urllib.request
     pagina = urllib.request.urlopen(url)
     texto = pagina.read().decode("utf-8")
     inicio = texto.find(">$") + 2
@@ -30,42 +27,55 @@ def consulta_preco():
             "cliente comum" if menor_valor == cliente_comum else "cliente fidelidade"
         )
 
+        # Nessa exeção ele verifica se o valor esta acima do valor de comprar, se estiver ele continua o loop.
         if cliente_comum >= valor_minino and cliente_fidelidade >= valor_minino:
             print("\nEspere...")
             print(f"\033[31mPreço Fidelidade: U${cliente_fidelidade:.2f}\033[m")
             print(f"\033[31mPreço Comum: U${cliente_comum:.2f}\033[m\n\033[m")
-            sleep(4) # Espera 4 segundos para fazer a próxima verificação
+            sleep(4)  # Espera 4 segundos para fazer a próxima verificação
 
+        # Se estiver no preço adequado de compra ele indicado a página e o valor de compra.
         else:
             print(f"\nCompre agora na pagina do {pagina}.")
             print(f"\033[32mPreço: U${menor_valor:.2f}\033[m\n")
             break
+
     return f"Preço: U${menor_valor:.2f}"
 
 
 def enviar_email(txt):
+    import os
+    import dotenv
     import smtplib
     import email.message
+
     corpo_email = f"""
     <p>Olá segue abaixo o preço de compra do café</p>
     <p>{txt}</p>
     """
 
-    msg = email.message.Message()
-    msg['Subject'] = "Preço do Café"
-    msg['From'] = 'josegfernandes03@gmail.com'
-    msg['To'] = 'josegfernandes03@gmail.com'
-    senha = '' # Configurar senha de acesso a aplicativo no google
-    msg.add_header('Content-Type', 'text/html') 
-    msg.set_payload(corpo_email )
+    arquivo_env = dotenv.find_dotenv()  # procura o arquivo .env
+    dotenv.load_dotenv(arquivo_env)  # adiciona o arquivo na variavel
+    usuario = os.getenv("email")  # pega a variavel email no arquivo .env
+    senha = os.getenv("senha")  # pega a senha na variavel senha no arquivo .env
 
-    s = smtplib.SMTP('smtp.gmail.com: 587') # Servidor do Gmail
-    s.starttls() # Inicia a conexão com o servidor
-    s.login(msg['From'], senha) # Faz o login no servidor
-    s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
-    print('Email enviado')
+    msg = email.message.Message()  # cria a mensagem do email
+    msg["Subject"] = "Preço do Café"
+    msg["From"] = usuario
+    msg["To"] = usuario
+    msg.add_header("Content-Type", "text/html")
+    msg.set_payload(corpo_email)
+
+    s = smtplib.SMTP("smtp.gmail.com: 587")  # Servidor do Gmail
+    s.starttls()  # Inicia a conexão com o servidor
+    s.login(msg["From"], senha)  # Faz o login no servidor
+    s.sendmail(
+        msg["From"], [msg["To"]], msg.as_string().encode("utf-8")
+    )  
+    # Envia o email
+    print("\033[32mEmail enviado\033[m")
 
 
-# Programa Principal 
-consulta_preco()
-
+if __name__ == "__main__":
+    consulta_preco()
+    enviar_email("mensagem")
