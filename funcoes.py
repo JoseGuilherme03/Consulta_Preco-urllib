@@ -1,11 +1,14 @@
 # A função abaixo abre um arquivo texto através da "urllib", lê seus dados, considerando que são do formato UTF-8 e retorna uma string com os dados. Após isso, utiliza o find para encontrar a posição do valor do preço e retorna o valor do preço.
 def identifica_preco(url):
     import urllib.request
+
+
     pagina = urllib.request.urlopen(url)
     texto = pagina.read().decode("utf-8")
     inicio = texto.find(">$") + 2
     fim = texto.find("</", inicio)
     preco = texto[inicio:fim]
+
     return float(preco)
 
 
@@ -40,7 +43,7 @@ def consulta_preco():
             print(f"\033[32mPreço: U${menor_valor:.2f}\033[m\n")
             break
 
-    return f"Preço: U${menor_valor:.2f}"
+    return f"Preço Baixou!! - Preço: U${menor_valor:.2f} - Acesse a página do {pagina}."
 
 
 def enviar_email(txt):
@@ -48,6 +51,7 @@ def enviar_email(txt):
     import dotenv
     import smtplib
     import email.message
+
 
     corpo_email = f"""
     <p>Olá segue abaixo o preço de compra do café</p>
@@ -71,11 +75,27 @@ def enviar_email(txt):
     s.login(msg["From"], senha)  # Faz o login no servidor
     s.sendmail(
         msg["From"], [msg["To"]], msg.as_string().encode("utf-8")
-    )  
+    )
+
     # Envia o email
     print("\033[32mEmail enviado\033[m")
 
 
+def msg_whatsapp(mensagem):
+    from pywhatkit import sendwhatmsg
+    from datetime import datetime
+
+    # Pega a hora atual e adiciona 1 minuto
+    agora = datetime.now()
+    hora = agora.hour
+    minuto = agora.minute + 1
+
+    # Envia a mensagem para o número informado e aguarda 2 segundos para fechar o navegador
+    sendwhatmsg("+554799161-6278", mensagem, hora, minuto,20,True,2)
+    print("\033[32mMensagem enviada no whatsapp\033[m")
+    
+
 if __name__ == "__main__":
-    consulta_preco()
-    enviar_email("mensagem")
+    mensagem = consulta_preco()
+    enviar_email(mensagem)
+    msg_whatsapp(mensagem)
