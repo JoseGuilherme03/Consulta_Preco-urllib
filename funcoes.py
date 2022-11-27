@@ -2,7 +2,6 @@
 def identifica_preco(url):
     import urllib.request
 
-
     pagina = urllib.request.urlopen(url)
     texto = pagina.read().decode("utf-8")
     inicio = texto.find(">$") + 2
@@ -67,8 +66,8 @@ def enviar_email(txt):
     msg["Subject"] = "Preço do Café"
     msg["From"] = usuario
     msg["To"] = usuario
-    msg.add_header("Content-Type", "text/html")
-    msg.set_payload(corpo_email)
+    msg.add_header("Content-Type", "text/html") # define o tipo de conteudo do email
+    msg.set_payload(corpo_email) # define o corpo do email
 
     s = smtplib.SMTP("smtp.gmail.com: 587")  # Servidor do Gmail
     s.starttls()  # Inicia a conexão com o servidor
@@ -76,8 +75,8 @@ def enviar_email(txt):
     s.sendmail(
         msg["From"], [msg["To"]], msg.as_string().encode("utf-8")
     )
+    s.quit()  # Fecha a conexão com o servidor
 
-    # Envia o email
     print("\033[32mEmail enviado\033[m")
 
 
@@ -95,7 +94,3 @@ def msg_whatsapp(mensagem):
     print("\033[32mMensagem enviada no whatsapp\033[m")
     
 
-if __name__ == "__main__":
-    mensagem = consulta_preco()
-    enviar_email(mensagem)
-    msg_whatsapp(mensagem)
