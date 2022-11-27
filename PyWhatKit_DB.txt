@@ -128,3 +128,23 @@ Time: 20:7
 Phone Number: +554799161-6278
 Message: Preço Baixou!! - Preço: U$4.57 - Acesse a página do cliente comum.
 --------------------
+Date: 27/11/2022
+Time: 12:18
+Phone Number: +554799161-6278
+Message: Preço Baixou!! - Preço: U$4.24 - Acesse a página do cliente comum.
+--------------------
+Date: 27/11/2022
+Time: 12:20
+Phone Number: +554799161-6278
+Message: Preço Baixou!! - Preço: U$4.36 - Acesse a página do cliente comum.
+--------------------
+Date: 27/11/2022
+Time: 12:21
+Phone Number: +554799161-6278
+Message: Preço Baixou!! - Preço: U$4.25 - Acesse a página do cliente comum.
+--------------------
+Date: 27/11/2022
+Time: 12:30
+Phone Number: +554799161-6278
+Message: Preço Baixou!! - Preço: U$4.29 - Acesse a página do cliente comum.
+--------------------
